@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 6 ELA Quest: Ultimate Exam & Skill Review</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Press Start 2P -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0b0f19;
+            color: #f3f4f6;
+        }
+        .pixel-font {
+            font-family: 'Press Start 2P', monospace;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #111827;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #374151;
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #4b5563;
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* PRINT STYLES FOR CANVAS PDF SUBMISSION REPORT */
+        @media print {
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+            }
+            header, nav, #mute-btn, button, .no-print {
+                display: none !important;
+            }
+            #app-container {
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .print-card {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                page-break-inside: avoid;
+            }
+            .print-text-dark {
+                color: #000000 !important;
+            }
+            .print-text-muted {
+                color: #4b5563 !important;
+            }
+        }
+    </style>
+</head>
+<body class="h-full flex flex-col bg-slate-950 text-slate-100 overflow-x-hidden select-none">
+
+    <script>
+        /* Web Audio API Synthesizer for Retro Gaming SFX */
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.muted = false;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+            }
+
+            playCorrect() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(523.25, now);
+                osc.frequency.exponentialRampToValueAtTime(1046.50, now + 0.2);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.2);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            }
+
+            playIncorrect() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(110, now + 0.25);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.25);
+            }
+
+            playLevelUp() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, idx) => {
+                    const osc = this.ctx.createOscillator();
+                    const gain = this.ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(freq, now + idx * 0.08);
+                    gain.gain.setValueAtTime(0.2, now + idx * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + idx * 0.08 + 0.15);
+                    osc.connect(gain);
+                    gain.connect(this.ctx.destination);
+                    osc.start(now + idx * 0.08);
+                    osc.stop(now + idx * 0.08 + 0.15);
+                });
+            }
+
+            playClick() {
+                if (this.muted) return;
+                this.init();
+                const now = this.ctx.currentTime;
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(800, now);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.04);
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.04);
+            }
+        }
+
+        const soundFX = new SoundEngine();
+    </script>
+
+    <!-- Header Navigation Bar -->
+    <header class="bg-slate-900 border-b border-slate-800 px-4 py-3 sticky top-0 z-50 no-print">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-xl shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid font-black fa-gamepad text-xl text-white"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg md:text-xl font-black tracking-wide text-white uppercase flex items-center gap-2">
+                        GRADE 6 ELA QUEST <span class="bg-indigo-500 text-white text-xs px-2 py-0.5 rounded font-bold uppercase tracking-wider">EXAM REVIEW</span>
+                    </h1>
+                    <p class="text-xs text-slate-400 font-medium">6th Grade ELA Standards Mastery & Skill Hub</p>
+                </div>
+            </div>
+
+            <!-- Player Game Stats Bar -->
+            <div class="flex items-center gap-4 md:gap-6 bg-slate-950/80 px-4 py-2 rounded-xl border border-slate-800 text-xs font-semibold">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-blue-400 text-sm"></i>
+                    <div>
+                        <div class="text-slate-400 text-[10px] uppercase tracking-wider">Elapsed</div>
+                        <span id="timer-display" class="text-blue-400 text-sm font-bold">00:00</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 border-l border-slate-800 pl-4">
+                    <i class="fa-solid fa-bolt text-amber-400 text-sm"></i>
+                    <div>
+                        <div class="text-slate-400 text-[10px] uppercase tracking-wider">Total XP</div>
+                        <span id="player-xp" class="text-amber-400 text-sm font-bold">0 XP</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 border-l border-slate-800 pl-4">
+                    <i class="fa-solid fa-fire text-orange-500 text-sm"></i>
+                    <div>
+                        <div class="text-slate-400 text-[10px] uppercase tracking-wider">Streak</div>
+                        <span id="player-streak" class="text-orange-400 text-sm font-bold">0x</span>
+                    </div>
+                </div>
+
+                <button onclick="toggleMute()" id="mute-btn" class="border-l border-slate-800 pl-4 text-slate-400 hover:text-white transition">
+                    <i class="fa-solid fa-volume-high text-base"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="app-container" class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+        <!-- Content dynamic injection point -->
+    </main>
+
+    <script>
+        /* Database of 20 High-Yield Grade 6 ELA Questions (NO Hints included) */
+        const QUESTION_BANK = [
+            // PROSE & POETRY CATEGORY
+            {
+                id: 1,
+                category: "prose_poetry",
+                categoryTitle: "Prose & Poetry",
+                benchmark: "ELA.6.R.1.1",
+                dok: 1,
+                passage: {
+                    title: "The Midnight Cipher",
+                    text: "Marcus stared at the glowing tablet screen, his fingers hovering over the keypad. 'If we enter the wrong key, the terminal locks us out forever,' he whispered. Maya tapped her foot impatiently, pointing to the silver wall plaque. 'Look at the date on the crest, Marcus! It matches the pioneer founding year from our history module.' Reluctantly, Marcus typed 1845. The heavy iron door clicked, sliding silently into the wall frame."
+                },
+                type: "single",
+                question: "How does Maya's action in the passage drive the plot forward?",
+                options: [
+                    "A. She forces Marcus to give up and leave the terminal.",
+                    "B. She notices a clue on the plaque that allows them to unlock the door.",
+                    "C. She guesses a random code that disables the security alarm.",
+                    "D. She activates the door manually by pressing the iron frame."
+                ],
+                correct: [1],
+                explanation: "Maya notices the pioneer founding year on the crest, providing the necessary code (1845) that resolves the obstacle and unlocks the door (ELA.6.R.1.1)."
+            },
+            {
+                id: 2,
+                category: "prose_poetry",
+                categoryTitle: "Prose & Poetry",
+                benchmark: "ELA.6.R.1.2",
+                dok: 3,
+                passage: {
+                    title: "The Flight of Icarus (Adapted)",
+                    text: "Daedalus cautioned his young son, 'Fly along the middle course, Icarus. If you skim too low, the damp sea spray will weigh down your feathers; if you soar too high, the scorching sun will melt the wax holding your wings together.' Yet, enchanted by the thrilling rush of ascent, Icarus soared higher and higher into the dazzling blue sky, disregarding his father's earnest warnings until the wax softened and trickled away."
+                },
+                type: "single",
+                question: "Which statement best synthesizes the universal theme of this passage, distinguishing it from a simple plot summary?",
+                options: [
+                    "A. Wings made of wax and feathers are fragile under extreme weather conditions.",
+                    "B. Icarus fell into the sea because he flew too close to the scorching sun.",
+                    "C. Reckless thrill-seeking and ignoring wise counsel can lead to tragic consequences.",
+                    "D. Fathers and sons must always work together when escaping dangerous situations."
+                ],
+                correct: [2],
+                explanation: "A universal theme is a broad truth about human life, whereas option B is merely a plot summary. Option C captures the thematic message regarding pride and ignoring counsel (ELA.6.R.1.2)."
+            },
+            {
+                id: 3,
+                category: "prose_poetry",
+                categoryTitle: "Prose & Poetry",
+                benchmark: "ELA.6.R.1.3",
+                dok: 2,
+                passage: {
+                    title: "Two Views on the Storm",
+                    text: "Passage 1: Rain lashed against my bedroom window like handfuls of thrown gravel. I pulled the heavy quilt over my head, trembling as thunder shook the rafters. Every flash of lightning felt like a personal threat.\n\nPassage 2: The thunderstorm provided a spectacular light show over the plains. Meteorologist Sarah Vance noted that the low-pressure system brought much-needed hydration to the drought-stricken wheat crops."
+                },
+                type: "single",
+                question: "How does the perspective in Passage 1 differ from the perspective in Passage 2?",
+                options: [
+                    "A. Passage 1 uses a third-person scientific point of view, while Passage 2 uses first-person.",
+                    "B. Passage 1 reflects a personal, fearful reaction to the storm, while Passage 2 presents an objective, positive outcome.",
+                    "C. Passage 1 explains how storms help farmers, while Passage 2 highlights roof damage.",
+                    "D. Passage 1 focuses on meteorology, while Passage 2 focuses on poetry."
+                ],
+                correct: [1],
+                explanation: "Passage 1 uses first-person ('I', 'my') to express fear and threat, while Passage 2 uses an objective, informative lens focusing on environmental benefits (ELA.6.R.1.3)."
+            },
+            {
+                id: 4,
+                category: "prose_poetry",
+                categoryTitle: "Prose & Poetry",
+                benchmark: "ELA.6.R.3.1",
+                dok: 2,
+                passage: {
+                    title: "The Autumn Woods",
+                    text: "The crisp autumn breeze was a mischievous thief, whisking away the golden leaves from the old oak trees and tossing them in wild spirals across the frost-dusted lawn."
+                },
+                type: "single",
+                question: "Which figurative device is present in the passage, and what mood does it create?",
+                options: [
+                    "A. Hyperbole; creates an aggressive and dangerous mood.",
+                    "B. Personification; creates a lively and playful mood.",
+                    "C. Simile; creates a solemn and dark mood.",
+                    "D. Alliteration; creates an official and calm mood."
+                ],
+                correct: [1],
+                explanation: "Describing the autumn breeze as a 'mischievous thief' that 'whisks' and 'tosses' leaves gives human traits to wind (personification), building a playful mood (ELA.6.R.3.1)."
+            },
+            {
+                id: 5,
+                category: "prose_poetry",
+                categoryTitle: "Prose & Poetry",
+                benchmark: "ELA.6.R.1.1",
+                dok: 3,
+                passage: {
+                    title: "The Solo Performance",
+                    text: "Paragraph 1: Clara stood backstage, her hands ice-cold and slick with sweat. The cello felt impossibly heavy in her arms. She looked out through the curtain crack at the crowded auditorium.\n\nParagraph 2: 'Remember your practice, Clara,' whispered Mr. Harrison. 'You know every note of this concerto in your sleep.' Clara took a slow, deep breath, centered her weight, and walked purposefully out toward the center stage."
+                },
+                type: "ebsr",
+                questionPartA: "Part A: How does Clara's internal conflict transform in Paragraph 2?",
+                optionsPartA: [
+                    "A. She decides to quit music and give her cello to Mr. Harrison.",
+                    "B. She shifts from overwhelming nervousness to controlled determination.",
+                    "C. She becomes angry that the auditorium is so crowded.",
+                    "D. She forgets the notes of her concerto when spoken to."
+                ],
+                questionPartB: "Part B: Which sentence from the passage best supports the answer to Part A?",
+                optionsPartB: [
+                    "A. 'Clara stood backstage, her hands ice-cold and slick with sweat.'",
+                    "B. 'The cello felt impossibly heavy in her arms.'",
+                    "C. 'She looked out through the curtain crack at the crowded auditorium.'",
+                    "D. 'Clara took a slow, deep breath, centered her weight, and walked purposefully out...'"
+                ],
+                correctPartA: 1,
+                correctPartB: 3,
+                explanation: "In Part A, Clara overcomes stage fright. In Part B, taking a deep breath and walking 'purposefully' provides direct supporting evidence (ELA.6.R.1.1)."
+            },
+
+            // INFORMATIONAL TEXT CATEGORY
+            {
+                id: 6,
+                category: "informational_text",
+                categoryTitle: "Informational Text",
+                benchmark: "ELA.6.R.2.1",
+                dok: 2,
+                passage: {
+                    title: "Coral Reefs in Peril",
+                    text: "Rising ocean temperatures cause coral bleaching, a process where corals expel the beneficial algae living in their tissues. As a result, coral structures turn ghostly white and starve. To combat this threat, marine biologists are breeding resilient super-corals in laboratories and transplanting them to damaged coastal reefs."
+                },
+                type: "single",
+                question: "Which organizational text structure is primarily used in this informational passage?",
+                options: [
+                    "A. Chronological Order",
+                    "B. Problem and Solution",
+                    "C. Compare and Contrast",
+                    "D. Classification & List"
+                ],
+                correct: [1],
+                explanation: "The text presents a problem (coral bleaching) and follows with a solution (breeding resilient super-corals) (ELA.6.R.2.1)."
+            },
+            {
+                id: 7,
+                category: "informational_text",
+                categoryTitle: "Informational Text",
+                benchmark: "ELA.6.R.2.2",
+                dok: 2,
+                passage: {
+                    title: "The Power of Sleep",
+                    text: "During deep sleep, the human brain actively processes memories from the day, clears out metabolic waste products, and repairs cellular tissue. Studies show middle school students who consistently get 8 to 10 hours of quality sleep demonstrate higher test performance, improved mood stability, and stronger immune defenses compared to sleep-deprived peers."
+                },
+                type: "single",
+                question: "What is the central idea of the passage?",
+                options: [
+                    "A. Middle school students should never study late at night.",
+                    "B. Deep sleep is essential because it restores brain function and supports overall student well-being.",
+                    "C. Sleep deprivation only affects physical fitness and athletic performance.",
+                    "D. Scientists have recently discovered how the brain stores short-term memories."
+                ],
+                correct: [1],
+                explanation: "The central idea unifies the details about brain function, memory processing, mood, and academic success tied directly to adequate sleep (ELA.6.R.2.2)."
+            },
+            {
+                id: 8,
+                category: "informational_text",
+                categoryTitle: "Informational Text",
+                benchmark: "ELA.6.R.2.4",
+                dok: 3,
+                passage: {
+                    title: "School Uniform Debate",
+                    text: "Implementing mandatory school uniforms eliminates peer pressure associated with brand-name clothing and reduces morning preparation stress for families. Furthermore, school safety data indicates visitor identification is significantly easier on campuses with standardized dress policies."
+                },
+                type: "single",
+                question: "Which evaluation of the author's claim is most accurate?",
+                options: [
+                    "A. The author's claim is unsupported because no personal opinions are shared.",
+                    "B. The author's claim that uniforms are beneficial is supported by logical reasons regarding equity, convenience, and safety.",
+                    "C. The author fails to explain why students dislike wearing uniforms on weekends.",
+                    "D. The claim relies entirely on emotional appeals without mentioning practical advantages."
+                ],
+                correct: [1],
+                explanation: "The author supports the claim with practical reasons: reducing peer pressure, lowering stress, and improving campus safety (ELA.6.R.2.4)."
+            },
+            {
+                id: 9,
+                category: "informational_text",
+                categoryTitle: "Informational Text",
+                benchmark: "ELA.6.R.2.4",
+                dok: 3,
+                passage: {
+                    title: "Renewable Energy Transition",
+                    text: "Solar and wind energy technology costs have dropped by over 60% in the last decade, making clean power economically competitive with fossil fuels. In addition, solar installations create three times more local jobs per megawatt than traditional coal facilities. However, battery storage technology must continue advancing to ensure grid stability on cloud-covered or windless days."
+                },
+                type: "multi",
+                question: "Select TWO statements that represent valid arguments supported by facts in the passage. (Choose 2)",
+                options: [
+                    "A. Clean energy sources are becoming far more affordable than in previous decades.",
+                    "B. Fossil fuels will be completely phased out across the world within two years.",
+                    "C. Solar energy expansion yields substantial local employment benefits.",
+                    "D. Battery storage technology is already flawless and requires no further development.",
+                    "E. Wind power causes more pollution than traditional coal power."
+                ],
+                correct: [0, 2],
+                explanation: "Option A is supported by the 60% cost reduction detail. Option C is supported by the fact that solar creates 3x more local jobs per megawatt (ELA.6.R.2.4)."
+            },
+            {
+                id: 10,
+                category: "informational_text",
+                categoryTitle: "Informational Text",
+                benchmark: "ELA.6.R.2.2",
+                dok: 3,
+                passage: {
+                    title: "Deep Sea Exploration",
+                    text: "Paragraph 1: The ocean twilight zone, extending from 200 to 1,000 meters deep, remains one of Earth's least explored frontiers. Despite perpetual darkness and crushing water pressure, millions of bioluminescent organisms thrive here.\n\nParagraph 2: Understanding these deep-water ecosystems is vital for global climate research because twilight zone creatures transport enormous quantities of carbon from surface waters down into the deep ocean seafloor, permanently storing it away from our atmosphere."
+                },
+                type: "ebsr",
+                questionPartA: "Part A: What is the author's primary purpose in Paragraph 2?",
+                optionsPartA: [
+                    "A. To explain how bioluminescent creatures generate light in darkness.",
+                    "B. To highlight the crucial role deep-sea organisms play in regulating global climate.",
+                    "C. To argue that submarine exploration is too expensive for scientists.",
+                    "D. To describe the physical pressure layers of ocean water."
+                ],
+                questionPartB: "Part B: Which quote from Paragraph 2 directly supports the answer to Part A?",
+                optionsPartB: [
+                    "A. 'The ocean twilight zone... remains one of Earth's least explored frontiers.'",
+                    "B. '...twilight zone creatures transport enormous quantities of carbon... permanently storing it...'",
+                    "C. '...extending from 200 to 1,000 meters deep...'",
+                    "D. '...perpetual darkness and crushing water pressure...'"
+                ],
+                correctPartA: 1,
+                correctPartB: 1,
+                explanation: "Part A identifies the purpose (highlighting carbon transport/climate role). Part B provides direct textual evidence showing how creatures transport carbon to the ocean floor (ELA.6.R.2.2)."
+            },
+
+            // ACROSS GENRES & VOCABULARY CATEGORY
+            {
+                id: 11,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.V.1.2",
+                dok: 1,
+                passage: null,
+                type: "single",
+                question: "The Greek root 'chron' means *time*. Based on this root, what does the word 'chronological' mean in ELA text analysis?",
+                options: [
+                    "A. Arranged in order of occurrence according to time.",
+                    "B. Written in colorful and descriptive language.",
+                    "C. Related to aquatic life and water bodies.",
+                    "D. Formed by drawing visual diagrams and charts."
+                ],
+                correct: [0],
+                explanation: "Root 'chron' = time + suffix '-logical' = order/study. Chronological means arranged according to time sequence (ELA.6.V.1.2)."
+            },
+            {
+                id: 12,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.V.1.2",
+                dok: 1,
+                passage: null,
+                type: "single",
+                question: "The Latin root 'spec' means *to look or see*. Which word uses this root to mean 'a person who watches or looks at an event'?",
+                options: [
+                    "A. Specimen",
+                    "B. Spectator",
+                    "C. Inspect",
+                    "D. Perspective"
+                ],
+                correct: [1],
+                explanation: "Root 'spec' (look) + noun suffix '-ator' (person who) = spectator (someone who watches an event) (ELA.6.V.1.2)."
+            },
+            {
+                id: 13,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.V.1.3",
+                dok: 2,
+                passage: {
+                    title: "Desolate Expedition",
+                    text: "The explorers crossed the bleak, **barren** landscape. Not a single tree, flower, or patch of green grass could be seen for miles in any direction."
+                },
+                type: "single",
+                question: "Using context clues from the sentence, what is the meaning of the word 'barren'?",
+                options: [
+                    "A. Overcrowded and noisy",
+                    "B. Empty of vegetation and life",
+                    "C. Extremely cold and snowy",
+                    "D. Wealthy and prosperous"
+                ],
+                correct: [1],
+                explanation: "The context clue 'Not a single tree, flower, or patch of green grass could be seen' defines barren as empty of vegetation (ELA.6.V.1.3)."
+            },
+            {
+                id: 14,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.V.1.3",
+                dok: 2,
+                passage: {
+                    title: "Community Debate",
+                    text: "Although the mayor promised rapid repairs, residents remained **skeptical**, demanding to see official construction contracts before celebrating."
+                },
+                type: "single",
+                question: "Which word is a synonym for 'skeptical' as used in the passage?",
+                options: [
+                    "A. Doubtful",
+                    "B. Enthusiastic",
+                    "C. Ignorant",
+                    "D. Confident"
+                ],
+                correct: [0],
+                explanation: "Residents demanding proof before celebrating shows they were doubtful/unconvinced (ELA.6.V.1.3)."
+            },
+            {
+                id: 15,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.C.3.1",
+                dok: 1,
+                passage: null,
+                type: "single",
+                question: "Which sentence demonstrates CORRECT pronoun-antecedent agreement?",
+                options: [
+                    "A. Every student must bring their own pencil to their assigned desk.",
+                    "B. Each member of the girls' basketball team brought her own water bottle.",
+                    "C. Neither of the boys remembered to pack their lunch today.",
+                    "D. A doctor should always listen carefully to their patients."
+                ],
+                correct: [1],
+                explanation: "Singular antecedent 'Each member' (singular feminine) matches singular feminine pronoun 'her' (ELA.6.C.3.1)."
+            },
+            {
+                id: 16,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.C.3.1",
+                dok: 2,
+                passage: null,
+                type: "single",
+                question: "Identify the sentence that suffers from a VAGUE pronoun reference that causes confusion.",
+                options: [
+                    "A. When Jacob and David reached the gym, he realized he forgot his shoes.",
+                    "B. Jacob told David that David had forgotten his gym shoes.",
+                    "C. The students turned in their essays before the final bell rang.",
+                    "D. Maya handed her teacher the completed workbook assignment."
+                ],
+                correct: [0],
+                explanation: "Option A uses 'he' twice when referring to two males (Jacob and David), making it unclear who forgot the shoes (ELA.6.C.3.1)."
+            },
+            {
+                id: 17,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.C.1.2",
+                dok: 2,
+                passage: null,
+                type: "single",
+                question: "Which transition phrase best connects an author's claim to supporting evidence in an expository essay?",
+                options: [
+                    "A. Once upon a time...",
+                    "B. For instance, statistical evidence demonstrates that...",
+                    "C. Suddenly out of nowhere...",
+                    "D. On the other hand, I personally feel..."
+                ],
+                correct: [1],
+                explanation: "'For instance, statistical evidence demonstrates that...' provides a formal bridge between a claim and concrete backing (ELA.6.C.1.2)."
+            },
+            {
+                id: 18,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.C.1.2",
+                dok: 3,
+                passage: {
+                    title: "Expository Draft Excerpt",
+                    text: "Robotic technology is changing modern farming. Automated tractors use GPS to plant seeds in exact rows. Drones fly over crops to detect plant diseases early."
+                },
+                type: "single",
+                question: "Which sentence provides the best synthesizing concluding statement for this expository paragraph?",
+                options: [
+                    "A. Drones are very fun to fly on sunny weekends in the park.",
+                    "B. Therefore, modern technological innovations enhance both efficiency and crop yield in modern agriculture.",
+                    "C. Farmers in the past used horses and manual plows to work fields.",
+                    "D. I think robots will replace all human workers very soon."
+                ],
+                correct: [1],
+                explanation: "Option B synthesizes the specific examples (tractors, drones) into a broad concluding insight on modern agricultural efficiency (ELA.6.C.1.2)."
+            },
+            {
+                id: 19,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.V.1.2",
+                dok: 2,
+                passage: null,
+                type: "single",
+                question: "The Greek root 'bio' means *life* and 'graph' means *write*. What is the meaning of an 'autobiography'?",
+                options: [
+                    "A. An account of a person's life written by that same person.",
+                    "B. A fictional story written about life on another planet.",
+                    "C. A scientific textbook describing living organism cells.",
+                    "D. A written contract allowing someone to drive an automobile."
+                ],
+                correct: [0],
+                explanation: "Prefix 'auto-' (self) + 'bio' (life) + 'graph' (write) = self-life-writing (ELA.6.V.1.2)."
+            },
+            {
+                id: 20,
+                category: "vocabulary_conventions",
+                categoryTitle: "Across Genres & Vocabulary",
+                benchmark: "ELA.6.C.3.1",
+                dok: 3,
+                passage: null,
+                type: "single",
+                question: "Which revision replaces informal slang with formal academic tone suitable for standard written English?",
+                options: [
+                    "A. Informal: The study was super cool and totally blew everyone away.",
+                    "B. Revision: The scientific investigation yielded significant and compelling results.",
+                    "C. Revision: The study was pretty epic and gave folks lots of vibes.",
+                    "D. Revision: The researchers were super hyped about what they did."
+                ],
+                correct: [1],
+                explanation: "Option B substitutes slang ('super cool', 'blew everyone away') with precise academic terminology ('scientific investigation', 'significant and compelling results') (ELA.6.C.3.1)."
+            }
+        ];
+
+        /* Game Core State Tracking */
+        let gameState = {
+            studentName: "",
+            classPeriod: "",
+            currentIndex: 0,
+            score: 0,
+            xp: 0,
+            streak: 0,
+            startTime: null,
+            elapsedSeconds: 0,
+            timerInterval: null,
+            answers: [],
+            categoryScores: {
+                prose_poetry: { correct: 0, total: 0 },
+                informational_text: { correct: 0, total: 0 },
+                vocabulary_conventions: { correct: 0, total: 0 }
+            },
+            benchmarkScores: {},
+            selectedMulti: [],
+            selectedEbsrPartA: null,
+            selectedEbsrPartB: null
+        };
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderWelcomeScreen();
+        });
+
+        function toggleMute() {
+            soundFX.muted = !soundFX.muted;
+            const btn = document.getElementById('mute-btn');
+            if (soundFX.muted) {
+                btn.innerHTML = '<i class="fa-solid fa-volume-xmark text-base text-red-400"></i>';
+            } else {
+                btn.innerHTML = '<i class="fa-solid fa-volume-high text-base"></i>';
+                soundFX.playClick();
+            }
+        }
+
+        function startTimer() {
+            gameState.startTime = new Date();
+            gameState.elapsedSeconds = 0;
+            clearInterval(gameState.timerInterval);
+            gameState.timerInterval = setInterval(() => {
+                gameState.elapsedSeconds++;
+                const mins = Math.floor(gameState.elapsedSeconds / 60).toString().padStart(2, '0');
+                const secs = (gameState.elapsedSeconds % 60).toString().padStart(2, '0');
+                const timerElem = document.getElementById('timer-display');
+                if (timerElem) timerElem.innerText = `${mins}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(gameState.timerInterval);
+        }
+
+        /* 1. Welcome Screen View */
+        function renderWelcomeScreen() {
+            stopTimer();
+            const container = document.getElementById('app-container');
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto w-full space-y-8 animate-fade-in py-4">
+                    <div class="bg-gradient-to-r from-blue-900/60 via-indigo-900/60 to-purple-900/60 p-6 md:p-10 rounded-2xl border border-indigo-500/30 text-center relative overflow-hidden shadow-2xl">
+                        <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                        
+                        <span class="inline-block px-3 py-1 bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 rounded-full text-xs font-bold uppercase tracking-widest mb-4">
+                            <i class="fa-solid fa-graduation-cap mr-1"></i> Grade 6 ELA Standards Mastery
+                        </span>
+
+                        <h1 class="text-3xl md:text-5xl font-black text-white tracking-tight mb-4">
+                            GRADE 6 ELA <span class="gradient-text">QUEST</span>
+                        </h1>
+                        <p class="text-slate-300 text-sm md:text-base max-w-2xl mx-auto leading-relaxed mb-6">
+                            Rigorous 20-question assessment across Prose, Poetry, Informational Texts, Roots, and Academic Conventions.
+                        </p>
+
+                        <!-- Student Credentials Input Box -->
+                        <div class="max-w-md mx-auto bg-slate-950/80 p-5 rounded-xl border border-slate-800 text-left space-y-3 mb-6">
+                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-user-check"></i> Student Canvas Credentials
+                            </h3>
+                            <div>
+                                <label class="text-[11px] font-semibold text-slate-400 block mb-1">Student First & Last Name</label>
+                                <input type="text" id="input-student-name" placeholder="e.g. Alex Johnson" class="w-full bg-slate-900 border border-slate-700 focus:border-indigo-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                            </div>
+                            <div>
+                                <label class="text-[11px] font-semibold text-slate-400 block mb-1">Class Period / Section</label>
+                                <input type="text" id="input-class-period" placeholder="e.g. Period 3" class="w-full bg-slate-900 border border-slate-700 focus:border-indigo-500 rounded-lg px-3 py-2 text-xs text-white outline-none">
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap justify-center gap-4">
+                            <button onclick="validateAndStartQuest()" class="px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-base rounded-xl shadow-lg shadow-emerald-500/25 transform hover:-translate-y-0.5 transition flex items-center gap-3">
+                                <i class="fa-solid fa-play text-xl"></i> START EXAM QUEST
+                            </button>
+                            <button onclick="renderArcadeHub()" class="px-6 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-sm rounded-xl border border-slate-700 transition flex items-center gap-2">
+                                <i class="fa-solid fa-gamepad text-amber-400"></i> SKILL ARCADE MINI-GAMES
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Standards Overview Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-blue-500/20">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-blue-400 uppercase">Category 1</span>
+                                <span class="text-xs bg-blue-500/20 text-blue-300 px-2 py-0.5 rounded font-bold">Literature</span>
+                            </div>
+                            <h3 class="font-bold text-white text-base mb-1">Prose & Poetry</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">Character choices (R.1.1), theme vs summary (R.1.2), perspective (R.1.3), figurative devices (R.3.1).</p>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-purple-500/20">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-purple-400 uppercase">Category 2</span>
+                                <span class="text-xs bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded font-bold">Informational</span>
+                            </div>
+                            <h3 class="font-bold text-white text-base mb-1">Informational Text</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">Organizational structures (R.2.1), central idea (R.2.2), author claims & reasoning (R.2.4).</p>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-emerald-500/20">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold text-emerald-400 uppercase">Category 3</span>
+                                <span class="text-xs bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-bold">Language</span>
+                            </div>
+                            <h3 class="font-bold text-white text-base mb-1">Across Genres & Vocab</h3>
+                            <p class="text-xs text-slate-400 leading-relaxed">Greek/Latin roots (V.1.2), context clues (V.1.3), pronoun conventions (C.3.1), narrative techniques (C.1.2).</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function validateAndStartQuest() {
+            const nameInput = document.getElementById('input-student-name').value.trim();
+            const periodInput = document.getElementById('input-class-period').value.trim();
+
+            if (!nameInput) {
+                alert("Please enter your name before starting the exam for Canvas score tracking!");
+                return;
+            }
+
+            gameState.studentName = nameInput;
+            gameState.classPeriod = periodInput || "N/A";
+            startMainQuest();
+        }
+
+        /* 2. Main Question Engine View */
+        function startMainQuest() {
+            soundFX.playClick();
+            gameState.currentIndex = 0;
+            gameState.score = 0;
+            gameState.xp = 0;
+            gameState.streak = 0;
+            gameState.answers = [];
+            gameState.categoryScores = {
+                prose_poetry: { correct: 0, total: 0 },
+                informational_text: { correct: 0, total: 0 },
+                vocabulary_conventions: { correct: 0, total: 0 }
+            };
+            
+            // Build benchmark list
+            QUESTION_BANK.forEach(q => {
+                if (!gameState.benchmarkScores[q.benchmark]) {
+                    gameState.benchmarkScores[q.benchmark] = { correct: 0, total: 0 };
+                }
+            });
+
+            updateHeaderStats();
+            startTimer();
+            renderQuestion();
+        }
+
+        function updateHeaderStats() {
+            document.getElementById('player-xp').innerText = `${gameState.xp} XP`;
+            document.getElementById('player-streak').innerText = `${gameState.streak}x`;
+        }
+
+        function renderQuestion() {
+            const q = QUESTION_BANK[gameState.currentIndex];
+            gameState.selectedMulti = [];
+            gameState.selectedEbsrPartA = null;
+            gameState.selectedEbsrPartB = null;
+
+            const container = document.getElementById('app-container');
+            const hasPassage = q.passage !== null;
+
+            container.innerHTML = `
+                <div class="w-full max-w-6xl mx-auto space-y-4">
+                    <!-- Progress Bar & Question Meta Header -->
+                    <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span class="pixel-font text-xs text-indigo-400 bg-indigo-950/80 border border-indigo-800/60 px-3 py-1 rounded">
+                                QUESTION ${gameState.currentIndex + 1}/20
+                            </span>
+                            <span class="text-xs font-semibold px-2.5 py-1 bg-slate-800 text-slate-300 rounded-md">
+                                Benchmark: <strong class="text-amber-400">${q.benchmark}</strong>
+                            </span>
+                            <span class="text-xs font-bold px-2 py-0.5 ${q.dok === 1 ? 'bg-blue-500/20 text-blue-300' : q.dok === 2 ? 'bg-amber-500/20 text-amber-300' : 'bg-red-500/20 text-red-300'} rounded">
+                                DOK Level ${q.dok}
+                            </span>
+                        </div>
+                        
+                        <!-- Mini Progress Bar -->
+                        <div class="w-full md:w-48 bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                            <div class="bg-gradient-to-r from-blue-500 to-indigo-500 h-full transition-all duration-300" style="width: ${((gameState.currentIndex + 1) / 20) * 100}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Body Grid -->
+                    <div class="grid grid-cols-1 ${hasPassage ? 'lg:grid-cols-2' : ''} gap-6">
+                        
+                        ${hasPassage ? `
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-slate-800 flex flex-col h-full max-h-[500px]">
+                            <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800">
+                                <h3 class="font-bold text-slate-200 text-sm uppercase tracking-wider flex items-center gap-2">
+                                    <i class="fa-solid fa-book-open text-indigo-400"></i> ${q.passage.title}
+                                </h3>
+                                <span class="text-[10px] text-slate-400 uppercase">Reading Passage</span>
+                            </div>
+                            <div class="overflow-y-auto custom-scrollbar pr-2 text-slate-300 text-sm leading-relaxed whitespace-pre-line font-serif">
+                                ${q.passage.text}
+                            </div>
+                        </div>
+                        ` : ''}
+
+                        <!-- Interactive Question Options -->
+                        <div class="bg-slate-900/90 p-5 rounded-xl border border-slate-800 flex flex-col justify-between space-y-4">
+                            
+                            <div>
+                                <span class="text-xs font-bold text-indigo-400 uppercase tracking-wide block mb-1">${q.categoryTitle}</span>
+                                
+                                ${q.type === 'single' ? `
+                                    <h2 class="text-base md:text-lg font-bold text-white mb-4 leading-snug">${q.question}</h2>
+                                    <div class="space-y-2.5" id="options-container">
+                                        ${q.options.map((opt, idx) => `
+                                            <button onclick="selectSingleOption(${idx})" id="opt-${idx}" class="w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800/80 hover:border-slate-700 text-sm font-medium transition flex items-start gap-3 group">
+                                                <span class="w-6 h-6 rounded-lg bg-slate-800 group-hover:bg-indigo-600 group-hover:text-white text-slate-400 text-xs flex items-center justify-center font-bold shrink-0 transition">
+                                                    ${String.fromCharCode(65 + idx)}
+                                                </span>
+                                                <span class="text-slate-200">${opt.substring(3)}</span>
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+
+                                ${q.type === 'multi' ? `
+                                    <h2 class="text-base md:text-lg font-bold text-white mb-1 leading-snug">${q.question}</h2>
+                                    <p class="text-xs text-amber-400 mb-4 font-semibold"><i class="fa-solid fa-circle-info mr-1"></i> Select exactly TWO options</p>
+                                    <div class="space-y-2.5" id="options-container">
+                                        ${q.options.map((opt, idx) => `
+                                            <button onclick="toggleMultiOption(${idx})" id="opt-${idx}" class="w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800/80 text-sm font-medium transition flex items-start gap-3">
+                                                <span id="checkbox-${idx}" class="w-6 h-6 rounded-md border border-slate-700 bg-slate-800 text-xs flex items-center justify-center font-bold shrink-0"></span>
+                                                <span class="text-slate-200">${opt}</span>
+                                            </button>
+                                        `).join('')}
+                                    </div>
+                                ` : ''}
+
+                                ${q.type === 'ebsr' ? `
+                                    <div class="space-y-4">
+                                        <!-- PART A -->
+                                        <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+                                            <h3 class="text-sm font-bold text-amber-400 mb-2">${q.questionPartA}</h3>
+                                            <div class="space-y-2">
+                                                ${q.optionsPartA.map((opt, idx) => `
+                                                    <button onclick="selectEbsrPartA(${idx})" id="ebsr-a-${idx}" class="w-full text-left p-2.5 rounded-lg border border-slate-800 bg-slate-900 text-xs text-slate-200 hover:bg-slate-800 transition">
+                                                        ${opt}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+
+                                        <!-- PART B -->
+                                        <div class="p-3 bg-slate-950/60 rounded-xl border border-slate-800">
+                                            <h3 class="text-sm font-bold text-amber-400 mb-2">${q.questionPartB}</h3>
+                                            <div class="space-y-2">
+                                                ${q.optionsPartB.map((opt, idx) => `
+                                                    <button onclick="selectEbsrPartB(${idx})" id="ebsr-b-${idx}" class="w-full text-left p-2.5 rounded-lg border border-slate-800 bg-slate-900 text-xs text-slate-200 hover:bg-slate-800 transition">
+                                                        ${opt}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+
+                            <!-- Explanation Feedback Box -->
+                            <div id="explanation-box" class="hidden p-4 rounded-xl text-xs leading-relaxed"></div>
+
+                            <!-- Action Bar Button -->
+                            <div id="action-bar" class="pt-2">
+                                <button onclick="submitAnswer()" id="submit-btn" class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-check-circle"></i> SUBMIT ANSWER
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* Interactive Selection Logic */
+        let activeSelection = null;
+
+        function selectSingleOption(index) {
+            soundFX.playClick();
+            activeSelection = index;
+            const q = QUESTION_BANK[gameState.currentIndex];
+            for (let i = 0; i < q.options.length; i++) {
+                const btn = document.getElementById(`opt-${i}`);
+                if (i === index) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-indigo-500 bg-indigo-950/40 text-sm font-medium transition flex items-start gap-3";
+                } else {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 hover:bg-slate-800/80 text-sm font-medium transition flex items-start gap-3 opacity-60";
+                }
+            }
+        }
+
+        function toggleMultiOption(index) {
+            soundFX.playClick();
+            const pos = gameState.selectedMulti.indexOf(index);
+            if (pos > -1) {
+                gameState.selectedMulti.splice(pos, 1);
+            } else {
+                if (gameState.selectedMulti.length < 2) {
+                    gameState.selectedMulti.push(index);
+                }
+            }
+
+            const q = QUESTION_BANK[gameState.currentIndex];
+            for (let i = 0; i < q.options.length; i++) {
+                const btn = document.getElementById(`opt-${i}`);
+                const chk = document.getElementById(`checkbox-${i}`);
+                if (gameState.selectedMulti.includes(i)) {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border-2 border-indigo-500 bg-indigo-950/40 text-sm font-medium transition flex items-start gap-3";
+                    chk.className = "w-6 h-6 rounded-md bg-indigo-600 text-white text-xs flex items-center justify-center font-bold shrink-0";
+                    chk.innerHTML = '<i class="fa-solid fa-check text-xs"></i>';
+                } else {
+                    btn.className = "w-full text-left p-3.5 rounded-xl border border-slate-800 bg-slate-950/60 text-sm font-medium transition flex items-start gap-3";
+                    chk.className = "w-6 h-6 rounded-md border border-slate-700 bg-slate-800 text-xs flex items-center justify-center font-bold shrink-0";
+                    chk.innerHTML = '';
+                }
+            }
+        }
+
+        function selectEbsrPartA(index) {
+            soundFX.playClick();
+            gameState.selectedEbsrPartA = index;
+            const q = QUESTION_BANK[gameState.currentIndex];
+            for (let i = 0; i < q.optionsPartA.length; i++) {
+                const btn = document.getElementById(`ebsr-a-${i}`);
+                if (i === index) {
+                    btn.className = "w-full text-left p-2.5 rounded-lg border-2 border-amber-500 bg-amber-950/40 text-xs text-white transition font-semibold";
+                } else {
+                    btn.className = "w-full text-left p-2.5 rounded-lg border border-slate-800 bg-slate-900 text-xs text-slate-400 hover:bg-slate-800 transition opacity-60";
+                }
+            }
+        }
+
+        function selectEbsrPartB(index) {
+            soundFX.playClick();
+            gameState.selectedEbsrPartB = index;
+            const q = QUESTION_BANK[gameState.currentIndex];
+            for (let i = 0; i < q.optionsPartB.length; i++) {
+                const btn = document.getElementById(`ebsr-b-${i}`);
+                if (i === index) {
+                    btn.className = "w-full text-left p-2.5 rounded-lg border-2 border-amber-500 bg-amber-950/40 text-xs text-white transition font-semibold";
+                } else {
+                    btn.className = "w-full text-left p-2.5 rounded-lg border border-slate-800 bg-slate-900 text-xs text-slate-400 hover:bg-slate-800 transition opacity-60";
+                }
+            }
+        }
+
+        function submitAnswer() {
+            const q = QUESTION_BANK[gameState.currentIndex];
+            let isCorrect = false;
+
+            if (q.type === 'single') {
+                if (activeSelection === null) return;
+                isCorrect = q.correct.includes(activeSelection);
+            } else if (q.type === 'multi') {
+                if (gameState.selectedMulti.length !== 2) return;
+                const sortedSel = [...gameState.selectedMulti].sort().join(',');
+                const sortedCorr = [...q.correct].sort().join(',');
+                isCorrect = sortedSel === sortedCorr;
+            } else if (q.type === 'ebsr') {
+                if (gameState.selectedEbsrPartA === null || gameState.selectedEbsrPartB === null) return;
+                isCorrect = (gameState.selectedEbsrPartA === q.correctPartA) && (gameState.selectedEbsrPartB === q.correctPartB);
+            }
+
+            gameState.categoryScores[q.category].total += 1;
+            gameState.benchmarkScores[q.benchmark].total += 1;
+
+            if (isCorrect) {
+                soundFX.playCorrect();
+                gameState.score += 1;
+                gameState.streak += 1;
+                gameState.categoryScores[q.category].correct += 1;
+                gameState.benchmarkScores[q.benchmark].correct += 1;
+                
+                const baseXP = q.dok === 1 ? 100 : q.dok === 2 ? 150 : 200;
+                const streakBonus = gameState.streak > 1 ? gameState.streak * 20 : 0;
+                gameState.xp += (baseXP + streakBonus);
+            } else {
+                soundFX.playIncorrect();
+                gameState.streak = 0;
+            }
+
+            updateHeaderStats();
+
+            const expBox = document.getElementById('explanation-box');
+            expBox.classList.remove('hidden');
+            if (isCorrect) {
+                expBox.className = "p-4 rounded-xl text-xs leading-relaxed bg-emerald-950/60 border border-emerald-500/40 text-emerald-200 animate-fade-in";
+                expBox.innerHTML = `
+                    <div class="font-bold text-emerald-400 text-sm mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i> CORRECT (+${q.dok * 100} XP)
+                    </div>
+                    ${q.explanation}
+                `;
+            } else {
+                expBox.className = "p-4 rounded-xl text-xs leading-relaxed bg-red-950/60 border border-red-500/40 text-red-200 animate-fade-in";
+                expBox.innerHTML = `
+                    <div class="font-bold text-red-400 text-sm mb-1 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-xmark"></i> INCORRECT
+                    </div>
+                    ${q.explanation}
+                `;
+            }
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.outerHTML = `
+                <button onclick="nextQuestion()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-black rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+                    CONTINUE TO NEXT ITEM <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            `;
+            activeSelection = null;
+        }
+
+        function nextQuestion() {
+            soundFX.playClick();
+            gameState.currentIndex += 1;
+            if (gameState.currentIndex < QUESTION_BANK.length) {
+                renderQuestion();
+            } else {
+                renderScorecard();
+            }
+        }
+
+        /* 3. Diagnostic Scorecard & Official Canvas PDF Submission Report */
+        function renderScorecard() {
+            stopTimer();
+            soundFX.playLevelUp();
+            const container = document.getElementById('app-container');
+
+            const total = QUESTION_BANK.length;
+            const pct = Math.round((gameState.score / total) * 100);
+
+            const cat1Pct = gameState.categoryScores.prose_poetry.total > 0 
+                ? Math.round((gameState.categoryScores.prose_poetry.correct / gameState.categoryScores.prose_poetry.total) * 100) : 0;
+            const cat2Pct = gameState.categoryScores.informational_text.total > 0 
+                ? Math.round((gameState.categoryScores.informational_text.correct / gameState.categoryScores.informational_text.total) * 100) : 0;
+            const cat3Pct = gameState.categoryScores.vocabulary_conventions.total > 0 
+                ? Math.round((gameState.categoryScores.vocabulary_conventions.correct / gameState.categoryScores.vocabulary_conventions.total) * 100) : 0;
+
+            const mins = Math.floor(gameState.elapsedSeconds / 60);
+            const secs = gameState.elapsedSeconds % 60;
+            const formattedTime = `${mins}m ${secs}s`;
+            const verificationCode = `CANVAS-6ELA-${Math.floor(100000 + Math.random() * 900000)}`;
+            const todayDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            container.innerHTML = `
+                <div class="max-w-4xl mx-auto w-full space-y-6 animate-fade-in py-4 print-card">
+                    <!-- Score Header Banner -->
+                    <div class="bg-slate-900/90 p-8 rounded-2xl border border-slate-800 text-center relative overflow-hidden shadow-2xl print-card">
+                        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 rounded-full text-xs font-bold uppercase tracking-wider inline-block mb-3 no-print">
+                            <i class="fa-solid fa-trophy mr-1"></i> EXAM COMPLETE
+                        </span>
+
+                        <div class="text-left border-b border-slate-800 pb-4 mb-4 flex flex-wrap justify-between items-center gap-2">
+                            <div>
+                                <h1 class="text-2xl font-black text-white uppercase print-text-dark">OFFICIAL CANVAS SCORE REPORT</h1>
+                                <p class="text-xs text-slate-400 print-text-muted">Grade 6 ELA Quest: Ultimate Exam & Skill Review</p>
+                            </div>
+                            <div class="text-right text-xs">
+                                <p class="text-amber-400 font-bold print-text-dark">Code: ${verificationCode}</p>
+                                <p class="text-slate-400 print-text-muted">Date: ${todayDate}</p>
+                            </div>
+                        </div>
+
+                        <!-- Student Data Line -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800 text-left mb-6 print-card">
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block print-text-muted">Student Name</span>
+                                <strong class="text-xs text-white print-text-dark">${gameState.studentName || "Student"}</strong>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block print-text-muted">Class Period</span>
+                                <strong class="text-xs text-white print-text-dark">${gameState.classPeriod || "N/A"}</strong>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block print-text-muted">Time Elapsed</span>
+                                <strong class="text-xs text-white print-text-dark">${formattedTime}</strong>
+                            </div>
+                            <div>
+                                <span class="text-[10px] text-slate-400 uppercase block print-text-muted">XP Points</span>
+                                <strong class="text-xs text-amber-400 print-text-dark">${gameState.xp} XP</strong>
+                            </div>
+                        </div>
+
+                        <h2 class="text-3xl md:text-5xl font-black text-white mb-2 print-text-dark">
+                            OVERALL ACCURACY: <span class="gradient-text print-text-dark">${pct}%</span>
+                        </h2>
+                        <p class="text-slate-400 text-sm font-medium mb-6 print-text-muted">
+                            Correctly answered <strong>${gameState.score}</strong> out of <strong>${total}</strong> questions.
+                        </p>
+
+                        <!-- Action Buttons -->
+                        <div class="flex flex-wrap justify-center gap-4 no-print">
+                            <button onclick="window.print()" class="px-6 py-3.5 bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-slate-950 font-black text-sm rounded-xl shadow-lg transition flex items-center gap-2">
+                                <i class="fa-solid fa-file-pdf"></i> DOWNLOAD SCORE REPORT (PDF FOR CANVAS)
+                            </button>
+                            <button onclick="renderWelcomeScreen()" class="px-6 py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm rounded-xl transition flex items-center gap-2">
+                                <i class="fa-solid fa-rotate-right"></i> RETAKE EXAM
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Category Breakdown -->
+                    <h3 class="text-base font-bold text-white flex items-center gap-2 print-text-dark">
+                        <i class="fa-solid fa-chart-pie text-indigo-400 no-print"></i> Category Performance Breakdown
+                    </h3>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2 print-card">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-blue-400 uppercase print-text-dark">Prose & Poetry</span>
+                                <span class="text-xs font-bold text-white print-text-dark">${cat1Pct}%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 print-text-muted">
+                                ${gameState.categoryScores.prose_poetry.correct} / ${gameState.categoryScores.prose_poetry.total} Correct
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2 print-card">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-purple-400 uppercase print-text-dark">Informational Text</span>
+                                <span class="text-xs font-bold text-white print-text-dark">${cat2Pct}%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 print-text-muted">
+                                ${gameState.categoryScores.informational_text.correct} / ${gameState.categoryScores.informational_text.total} Correct
+                            </p>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-4 rounded-xl border border-slate-800 space-y-2 print-card">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-emerald-400 uppercase print-text-dark">Across Genres & Vocab</span>
+                                <span class="text-xs font-bold text-white print-text-dark">${cat3Pct}%</span>
+                            </div>
+                            <p class="text-[11px] text-slate-400 print-text-muted">
+                                ${gameState.categoryScores.vocabulary_conventions.correct} / ${gameState.categoryScores.vocabulary_conventions.total} Correct
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Benchmark Standards Mastery Table -->
+                    <div class="bg-slate-900/90 p-5 rounded-xl border border-slate-800 space-y-3 print-card">
+                        <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider print-text-dark">Standard Benchmark Breakdown</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-xs">
+                            ${Object.keys(gameState.benchmarkScores).map(bm => {
+                                const stat = gameState.benchmarkScores[bm];
+                                const bmPct = stat.total > 0 ? Math.round((stat.correct / stat.total) * 100) : 0;
+                                return `
+                                    <div class="p-2 bg-slate-950 rounded border border-slate-800 print-card">
+                                        <span class="font-bold text-amber-400 block print-text-dark">${bm}</span>
+                                        <span class="text-slate-300 print-text-dark">${stat.correct}/${stat.total} (${bmPct}%)</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* 4. Arcade Skill Mini-Games */
+        function renderArcadeHub() {
+            stopTimer();
+            soundFX.playClick();
+            const container = document.getElementById('app-container');
+
+            container.innerHTML = `
+                <div class="max-w-5xl mx-auto w-full space-y-6 animate-fade-in py-4">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                        <div>
+                            <h1 class="text-2xl font-black text-white flex items-center gap-2">
+                                <i class="fa-solid fa-gamepad text-amber-400"></i> SKILL REVIEW ARCADE
+                            </h1>
+                            <p class="text-xs text-slate-400">Targeted rapid-fire drills aligned to Grade 6 ELA standards.</p>
+                        </div>
+                        <button onclick="renderWelcomeScreen()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg transition">
+                            <i class="fa-solid fa-house mr-1"></i> HOME
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-emerald-500/50 transition flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-xl font-bold mb-4">
+                                    <i class="fa-solid fa-bolt"></i>
+                                </div>
+                                <h3 class="font-bold text-white text-lg mb-1">Root & Context Slinger</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Fast-paced Greek and Latin root matching (chron, bio, aqua, spec, graph) and context clue decoding.</p>
+                            </div>
+                            <button onclick="startRootSlingerGame()" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl transition">
+                                PLAY GAME
+                            </button>
+                        </div>
+
+                        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-xl font-bold mb-4">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <h3 class="font-bold text-white text-lg mb-1">Text Structure Defender</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Categorize informational passages into Cause/Effect, Compare/Contrast, or Problem/Solution.</p>
+                            </div>
+                            <button onclick="startTextStructureGame()" class="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs rounded-xl transition">
+                                PLAY GAME
+                            </button>
+                        </div>
+
+                        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-blue-500/50 transition flex flex-col justify-between space-y-4">
+                            <div>
+                                <div class="w-12 h-12 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-xl font-bold mb-4">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </div>
+                                <h3 class="font-bold text-white text-lg mb-1">Theme Detective</h3>
+                                <p class="text-xs text-slate-400 leading-relaxed">Distinguish universal human themes from simple plot summaries in short story snippets.</p>
+                            </div>
+                            <button onclick="startThemeDetectiveGame()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition">
+                                PLAY GAME
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* Arcade Mini Game 1 */
+        function startRootSlingerGame() {
+            soundFX.playClick();
+            const container = document.getElementById('app-container');
+
+            const roots = [
+                { root: "CHRON", mean: "Time" },
+                { root: "BIO", mean: "Life" },
+                { root: "AQUA", mean: "Water" },
+                { root: "SPEC", mean: "Look/See" },
+                { root: "GRAPH", mean: "Write/Draw" }
+            ];
+
+            let curIndex = 0;
+            let miniScore = 0;
+
+            window.checkRootAns = function(selectedMean) {
+                if (selectedMean === roots[curIndex].mean) {
+                    soundFX.playCorrect();
+                    miniScore += 100;
+                } else {
+                    soundFX.playIncorrect();
+                }
+
+                curIndex++;
+                if (curIndex < roots.length) {
+                    renderCard();
+                } else {
+                    container.innerHTML = `
+                        <div class="max-w-md mx-auto text-center bg-slate-900 p-8 rounded-2xl border border-slate-800 space-y-4">
+                            <h2 class="text-2xl font-bold text-white">ROOT SLINGER COMPLETE!</h2>
+                            <p class="text-amber-400 font-bold text-xl">+${miniScore} XP EARNED</p>
+                            <button onclick="renderArcadeHub()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs">
+                                BACK TO ARCADE HUB
+                            </button>
+                        </div>
+                    `;
+                }
+            };
+
+            function renderCard() {
+                const item = roots[curIndex];
+                const shuffledMeans = [...roots].map(r => r.mean).sort(() => Math.random() - 0.5);
+
+                container.innerHTML = `
+                    <div class="max-w-lg mx-auto bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
+                        <div class="flex justify-between items-center text-xs text-slate-400">
+                            <span>ROOT SLINGER DRILL</span>
+                            <span>ITEM ${curIndex + 1}/${roots.length}</span>
+                        </div>
+
+                        <div class="text-center py-6 bg-slate-950 rounded-xl border border-slate-800">
+                            <span class="text-xs text-emerald-400 font-bold uppercase tracking-wider block mb-1">Identify Root Meaning</span>
+                            <h2 class="text-3xl font-black text-white pixel-font">${item.root}</h2>
+                        </div>
+
+                        <div class="grid grid-cols-1 gap-2.5">
+                            ${shuffledMeans.map(m => `
+                                <button onclick="checkRootAns('${m}')" class="p-3 bg-slate-800 hover:bg-emerald-600 hover:text-slate-950 text-white font-bold text-xs rounded-xl transition">
+                                    ${m}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            renderCard();
+        }
+
+        /* Arcade Mini Game 2 */
+        function startTextStructureGame() {
+            soundFX.playClick();
+            const container = document.getElementById('app-container');
+
+            const questions = [
+                { text: "Because high winds damaged power lines across the city, thousands of homes lost electricity for hours.", ans: "Cause & Effect" },
+                { text: "While electric cars produce zero emissions, gasoline cars offer faster refueling times on long trips.", ans: "Compare & Contrast" },
+                { text: "To eliminate traffic jams around school zones, administrators constructed a dedicated two-lane turning bay.", ans: "Problem & Solution" }
+            ];
+
+            let cur = 0;
+
+            window.checkStruct = function(selected) {
+                if (selected === questions[cur].ans) {
+                    soundFX.playCorrect();
+                } else {
+                    soundFX.playIncorrect();
+                }
+
+                cur++;
+                if (cur < questions.length) {
+                    render();
+                } else {
+                    container.innerHTML = `
+                        <div class="max-w-md mx-auto text-center bg-slate-900 p-8 rounded-2xl border border-slate-800 space-y-4">
+                            <h2 class="text-2xl font-bold text-white">STRUCTURE DEFENDER COMPLETE!</h2>
+                            <button onclick="renderArcadeHub()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs">
+                                BACK TO ARCADE HUB
+                            </button>
+                        </div>
+                    `;
+                }
+            };
+
+            function render() {
+                const item = questions[cur];
+                container.innerHTML = `
+                    <div class="max-w-lg mx-auto bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
+                        <div class="text-xs text-slate-400">STRUCTURE DEFENDER (${cur + 1}/${questions.length})</div>
+                        <p class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-sm text-slate-200">${item.text}</p>
+                        <div class="grid grid-cols-1 gap-2">
+                            ${["Cause & Effect", "Compare & Contrast", "Problem & Solution"].map(type => `
+                                <button onclick="checkStruct('${type}')" class="p-3 bg-slate-800 hover:bg-purple-600 text-white font-bold text-xs rounded-xl transition">
+                                    ${type}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            render();
+        }
+
+        /* Arcade Mini Game 3 */
+        function startThemeDetectiveGame() {
+            soundFX.playClick();
+            const container = document.getElementById('app-container');
+
+            const items = [
+                { statement: "Hard work and perseverance overcome obstacles.", type: "Universal Theme" },
+                { statement: "Leo trained every morning at 5 AM to win the cross-country medal.", type: "Plot Summary" }
+            ];
+
+            let cur = 0;
+
+            window.checkTheme = function(type) {
+                if (type === items[cur].type) {
+                    soundFX.playCorrect();
+                } else {
+                    soundFX.playIncorrect();
+                }
+
+                cur++;
+                if (cur < items.length) {
+                    render();
+                } else {
+                    container.innerHTML = `
+                        <div class="max-w-md mx-auto text-center bg-slate-900 p-8 rounded-2xl border border-slate-800 space-y-4">
+                            <h2 class="text-2xl font-bold text-white">THEME DETECTIVE COMPLETE!</h2>
+                            <button onclick="renderArcadeHub()" class="w-full py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs">
+                                BACK TO ARCADE HUB
+                            </button>
+                        </div>
+                    `;
+                }
+            };
+
+            function render() {
+                const item = items[cur];
+                container.innerHTML = `
+                    <div class="max-w-lg mx-auto bg-slate-900 p-6 rounded-2xl border border-slate-800 space-y-6">
+                        <div class="text-xs text-slate-400">THEME DETECTIVE (${cur + 1}/${items.length})</div>
+                        <p class="p-4 bg-slate-950 rounded-xl border border-slate-800 text-sm font-semibold text-white">"${item.statement}"</p>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button onclick="checkTheme('Universal Theme')" class="p-4 bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs rounded-xl transition">
+                                UNIVERSAL THEME
+                            </button>
+                            <button onclick="checkTheme('Plot Summary')" class="p-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs rounded-xl transition">
+                                PLOT SUMMARY
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            render();
+        }
+    </script>
+</body>
+</html>
